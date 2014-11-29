@@ -1,0 +1,10 @@
+Again, I wrote the if, else, and end all at the same time. It really helps
+me keep track of “where I am” in the code. It also makes the job seem
+easier because I can focus on one small part, such as filling in the code
+between the if and the else. The other benefit of doing it this way is that
+the computer can understand the program at any stage. Every one of
+the unfinished versions of the program I showed you would run. They
+weren’t finished, but they were working programs. That way I could
+test them as I wrote them, which helped me see how my program was
+coming along and where it still needed work. When it passed all the
+tests, I knew I was done.
