@@ -1,0 +1,13 @@
+varA = 10
+varB = 12
+
+if (type(varA) == string or type(varB) == string):
+    print('string involved')
+
+if (varA > varB):
+    print('bigger')
+elif (varA == varB):
+    print('equal')
+else
+    print('smaller')
+    
