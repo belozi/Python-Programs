@@ -1,4 +1,4 @@
-balance = 3329
+balance = 3926
 annualInterestRate = .20
 
 """
@@ -17,23 +17,22 @@ def rate(x):
 def monthlyStatement(x, y, z):
     balance = x
     annualInterestRate = y
-    monthlyPaymentRate = z
+    payment = z
     count = 0
     total = 0
     while count < 12:
-        payment = balance * monthlyPaymentRate
         ub = (balance - payment) + ((balance - payment) * rate(annualInterestRate))
         balance = ub
         total += payment
         count += 1
-        print ("Month: " + str(count) + "\nMinimum monthly payment: " + "%.2f" % (payment) + "\nRemaining balance: " + "%.2f" % ub)
-    print ("Total paid: " + "%.2f" % total + "\nRemaining balance: " + "%.2f" % ub)
+    return balance
 
 def lowestPayment(x, y):
     payment = 0
-    while balance > 0:
+    while monthlyStatement(x, y, payment) > 0:
         payment += 10
         monthlyStatement(x, y, payment)
-    print payment
+    return ("Lowest Payment: " + str(payment))
 
-lowestPayment(balance, annualInterestRate)
+print lowestPayment(balance, annualInterestRate)
+#monthlyStatement(balance, annualInterestRate, 310)
