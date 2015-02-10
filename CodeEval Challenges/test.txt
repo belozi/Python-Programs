@@ -1,4 +1,4 @@
-Hello world
-javaScript language
-a letter
-1st thing
+some line with text
+another line
+Your program should accept as its first argument a path to a filename
+Print the longest word in the following way
