@@ -83,8 +83,19 @@ class Hand(object):
         word: string
         returns: Boolean (if the word was or was not made)
         """
-        # Your code here
-        raise NotImplementedError()
+        all_words = True
+        for letter in word:
+            if letter not in self.hand:
+                all_words = False
+                break
+        if all_words == True:
+            for letter in word:
+                if self.hand[letter] == 0:
+                    self.hand = self.hand.replace(letter, '')
+                else:
+                    self.hand[letter] -= 1
+        return all_words
+            
 
     
 myHand = Hand(7)
