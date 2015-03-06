@@ -94,13 +94,23 @@ def buildCoder(shift):
     """
     Returns a dict that can apply a Caesar cipher to a letter.
     The cipher is defined by the shift value. Ignores non-letter characters
-    like punctuation, numbers and spaces.
+    like punctuation, numbers, and spaces.
 
     shift: 0 <= int < 26
     returns: dict
     """
-    ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+    upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    lower = upper.lower()
+    coder = {}
+    old_order = upper + lower
+    new_upper =  upper[ shift : ] + upper[ : shift + 1]
+    new_lower = lower[ shift : ] + lower[ : shift + 1]
+    
+    for x in xrange(26):
+        coder[old_order[x]] =new_upper[x]
+    for x in xrange(26,52):
+        coder[old_order[x]] =new_lower[x - 26]
+    return coder, old_order
 
 def applyCoder(text, coder):
     """
@@ -110,8 +120,17 @@ def applyCoder(text, coder):
     coder: dict with mappings of characters to shifted characters
     returns: text after mapping coder chars to original text
     """
-    ### TODO.
-    return "Not yet implemented." # Remove this comment when you code the function
+    chars = []
+    
+    for letter in text:
+        if letter == "," or letter in string.digits:
+            chars.append(letter)
+        elif letter in string.punctuation or letter ==" ":
+            chars.append(letter)     
+        else:
+            chars.append(coder[letter])
+
+    return ''.join(chars)
 
 def applyShift(text, shift):
     """
@@ -126,7 +145,7 @@ def applyShift(text, shift):
     """
     ### TODO.
     ### HINT: This is a wrapper function.
-    return "Not yet implemented." # Remove this comment when you code the function
+    return applyCoder(text, buildCoder(shift))
 
 #
 # Problem 2: Decryption
@@ -138,8 +157,19 @@ def findBestShift(wordList, text):
     text: string
     returns: 0 <= int < 26
     """
-    ### TODO
-    return "Not yet implemented." # Remove this comment when you code the function
+    max_words = 0
+    best_shift = 0
+    for x in xrange(27):
+        count = 0
+        data = applyShift(text, x)
+        words = data.split(' ')
+        for word in words:
+            if isWord(wordList, word):
+                count +=1
+        if count > max_words:
+            max_words = count
+            best_shift = x
+        return best_shift
 
 def decryptStory():
     """
