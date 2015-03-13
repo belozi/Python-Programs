@@ -111,53 +111,58 @@ class WordTrigger(Trigger):
 class TitleTrigger(WordTrigger):
 
         def evaluate(self, story):
-            return self.isWordIn(NewsStory.getTitle())
+            return self.isWordIn(story.getTitle())
         
 class SubjectTrigger(WordTrigger):
 
     def evaluate(self, story):
-        return self.isWordIn(NewsStory.getSubject())
+        return self.isWordIn(story.getSubject())
         
 def SummaryTrigger(WordTrigger):
 
     def evaluate(self, story):
-        return self.isWordIn(NewsStory.getSummary())
+        return self.isWordIn(story.getSummary())
 
 
 # Composite Triggers
 # Problems 6-8
 
-class NotTrigger(WordTrigger):
+class NotTrigger(Trigger):
 
     def __init___(self, other_trigger):
         self.other_trigger = other_trigger
 
-    def evaluate(self, other_trigger):
-        not self.other_trigger.isWordIn(NewsStory.getTitle())
+    def evaluate(self, story):
+        return not self.other_trigger.evaluate(story)
         
-class AndTrigger(WordTrigger):
+class AndTrigger(Trigger):
 
-    def __init__(self, other_trigger):
-        not self.other_trigger.isWordIn(NewsStory.getTitle())
+    def __init__(self, trigger1, trigger2):
+        self.trigger1 = trigger1
+        self.trigger2 = trigger2
+
+    def evaluate(self, story):
+        return self.trigger1.evaluate(story) and self.trigger2.evaluate(story)
         
-class OrTrigger(WordTrigger):
+class OrTrigger(Trigger):
 
-        def __init__(self, other_trigger):
-            not self.other_trigger.isWordIn(NewsStory.getTitle())
+        def __init__(self, trigger1, trigger2):
+            self.trigger1 = trigger1
+            self.trigger2 = trigger2
+
+        def evaluate(self, story):
+            return self.trigger1.evaluate(story) or self.trigger2.evaluate(story)
         
     
 # Question 9
 
-class PhraseTrigger(WordTrigger):
+class PhraseTrigger(Trigger):
 
     def __init__(self, phrase):
         self.phrase = phrase
-        if self.TitleTrigger.evaluate(NewsStory.getTitle()):
-            return True
-        if SubjectTrigger.evaluate(NewsStory.getSubject()):
-            return True
-        if SummaryTrigger.evaluate(NewsStory.getSummary()):
-            return True
+
+    def evaluate(self, story):
+        return self.phrase in story.getTitle() or self.phrase in story.getSubject() or self.phrase in story.getSummary()
 
 
 #======================
@@ -172,7 +177,14 @@ def filterStories(stories, triggerlist):
     Returns: a list of only the stories for which a trigger in triggerlist fires.
     """
     # TODO: Problem 10
-    # This is a placeholder (we're just returning all the stories, with no filtering) 
+
+    matches = []
+    for story in stories:
+        match = False
+        for trigger in triggerlist:
+            if trigger.evaluate(story):
+                matches.append(story)
+    stories = matches[:]
     return stories
 
 #======================
